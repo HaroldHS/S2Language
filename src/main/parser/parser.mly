@@ -35,13 +35,35 @@
 %start <Expression.expr> main
 
 %%
+(* expressions for list of operations, for error handling *)
+arith_ops:
+    TAMBAH { $1 }
+    | KURANG { $1 }
+    | KALI { $1 }
+    | BAGI { $1 }
+    | MODULO { $1 }
+;
+
+bool_ops:
+    DAN { $1 }
+    | ATAU { $1 }
+    | BUKAN { $1 }
+    | SAMA_DENGAN { $1 }
+    | LEBIH_KECIL { $1 }
+    | LEBIH_BESAR { $1 }
+;
+(* - end - *)
+
+
 main:
-    | bilangan_expr EOL { ExprBilangan $1 }
+    bilangan_expr EOL { ExprBilangan $1 }
     | desimal_expr EOL { ExprDesimal $1 }
     | boolean_expr EOL { ExprBool $1 }
     | invalid_arithmatic_expr EOL { ExprError $1}
+    | invalid_boolean_expr EOL { ExprError $1 }
     | EOF_TOKEN { ExprToken 0 }
     | INVALID_TOKEN { ExprError "error-00" }
+    | error EOL { ExprError "error-00" } (* syntax error *)
 ;
 
 bilangan_expr: 
@@ -58,7 +80,7 @@ bilangan_expr:
 ;
 
 desimal_expr:
-    | DESIMAL { $1 }
+    DESIMAL { $1 }
     | LPAREN desimal_expr RPAREN { $2 }
     (* arithmatic operations for floating point *)
     | desimal_expr TAMBAH desimal_expr { $1 +. $3 }
@@ -68,7 +90,7 @@ desimal_expr:
 ;
 
 boolean_expr:
-    | BENAR { $1 }
+    BENAR { $1 }
     | SALAH { $1 }
     | LPAREN boolean_expr RPAREN { $2 }
     (* boolean operators *)
@@ -77,10 +99,12 @@ boolean_expr:
     | BUKAN boolean_expr { not $2 }
     (* additional operations that boolean support *)
     | boolean_expr SAMA_DENGAN boolean_expr { $1 = $3 }
+    | bilangan_expr SAMA_DENGAN bilangan_expr { $1 = $3 }
+    | desimal_expr SAMA_DENGAN desimal_expr { $1 = $3 }
     | bilangan_expr LEBIH_KECIL bilangan_expr { int_smaller_than $1 $3}
     | desimal_expr LEBIH_KECIL desimal_expr { float_smaller_than $1 $3 }
-    | bilangan_expr LEBIH_BESAR bilangan_expr { int_smaller_than $1 $3}
-    | desimal_expr LEBIH_BESAR desimal_expr { float_smaller_than $1 $3 }
+    | bilangan_expr LEBIH_BESAR bilangan_expr { int_greater_than $1 $3}
+    | desimal_expr LEBIH_BESAR desimal_expr { float_greater_than $1 $3 }
 ;
 
 invalid_arithmatic_expr:
@@ -94,4 +118,26 @@ invalid_arithmatic_expr:
     | desimal_expr KALI bilangan_expr { "error-01" }
     | desimal_expr BAGI bilangan_expr { "error-01" }
     | desimal_expr MODULO bilangan_expr { "error-01" }
+    (* additional cases *)
+    | bilangan_expr arith_ops boolean_expr { "error-02" }
+    | desimal_expr arith_ops boolean_expr { "error-02" }
+    | boolean_expr arith_ops bilangan_expr { "error-02" }
+    | boolean_expr arith_ops desimal_expr { "error-02" }
+;
+
+invalid_boolean_expr:
+    (* edge cases *)
+    boolean_expr DAN bilangan_expr { "error-02" }
+    | boolean_expr ATAU bilangan_expr { "error-02" }
+    | boolean_expr SAMA_DENGAN bilangan_expr { "error-02" }
+    | boolean_expr DAN desimal_expr { "error-02" }
+    | boolean_expr ATAU desimal_expr { "error-02" }
+    | boolean_expr SAMA_DENGAN desimal_expr { "error-02" }
+    (* - end - *)
+    | boolean_expr bool_ops bilangan_expr { "error-02" }
+    | boolean_expr bool_ops desimal_expr { "error-02" }
+    | bilangan_expr bool_ops boolean_expr { "error-02" }
+    | desimal_expr bool_ops boolean_expr { "error-02" }
+    | bilangan_expr bool_ops bilangan_expr { "error-02" }
+    | desimal_expr bool_ops desimal_expr { "error-02" }
 ;

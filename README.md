@@ -10,8 +10,11 @@ dune build main.exe
 # Perform test
 dune test
 
-# Run the project
+# Run the project (interpreter mode)
 dune exec ./main.exe
+
+# Execute a .s2l file
+dune exec ./main.exe \(path of .s2l file\)
 
 # Clean the project
 dune clean
