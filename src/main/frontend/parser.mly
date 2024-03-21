@@ -1,4 +1,5 @@
 %{
+    (* required helper *)
     open Expression
 
     (* required modules *)
@@ -37,11 +38,12 @@
 %%
 (* expressions for list of operations, for error handling *)
 arith_ops:
-    TAMBAH { $1 }
-    | KURANG { $1 }
-    | KALI { $1 }
-    | BAGI { $1 }
-    | MODULO { $1 }
+    TAMBAH { "tambah" }
+    | KURANG { "kurang" }
+    | KALI { "kali" }
+    | BAGI { "bagi" }
+    | MODULO { "modulo" }
+;
 ;
 
 bool_ops:

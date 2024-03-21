@@ -14,3 +14,6 @@ type expr =
 
   *)
   | ExprError of string
+  (* expressions for evaluation *)
+  | ExprIntArithmatic of int * string * int
+  | ExprFloatArithmatic of float * string * int

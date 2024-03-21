@@ -7,7 +7,7 @@ let main =
   let cin = if Array.length Sys.argv > 1 then open_in Sys.argv.(1) else stdin in
     let lexbuf = Lexing.from_channel cin in
       for x=0 to 100 do
-        let result = Parser.main Lexer.token lexbuf in
+        let result = Parser.main Lexer.parse_token lexbuf in
           match result with
           | ExprBilangan i -> printf "baris %d >>  %d\n" x i
           | ExprDesimal f -> printf "baris %d >> %F\n" x f

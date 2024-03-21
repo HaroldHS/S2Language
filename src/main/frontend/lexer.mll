@@ -2,8 +2,8 @@
     open Parser
 }
 
-rule token = parse
-    [' ' '\t'] { token lexbuf }
+rule parse_token = parse
+    [' ' '\t'] { parse_token lexbuf }
     | '(' { LPAREN }
     | ')' { RPAREN }
     | '-' { MINUS }

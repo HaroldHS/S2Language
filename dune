@@ -1,8 +1,8 @@
-(copy_files (files ./src/main/parser/helper/*.ml))
-(copy_files (files ./src/main/parser/module/*.ml))
+(copy_files (files ./src/main/frontend/helper/*.ml))
+(copy_files (files ./src/main/frontend/module/*.ml))
 
-(copy_files (files ./src/main/lexer/lexer.mll))
-(copy_files (files ./src/main/parser/parser.mly))
+(copy_files (files ./src/main/frontend/lexer.mll))
+(copy_files (files ./src/main/frontend/parser.mly))
 (copy_files (files ./src/main/main.ml))
 
 (menhir (modules parser))
