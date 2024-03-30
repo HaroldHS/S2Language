@@ -32,8 +32,8 @@ type expr =
   (* boolean operations *)
   | BooleanExpression of boolean * expr * expr
   (* other operations *)
-  (* | Tampilkan of expr
-  | Diberikan of string * expr * expr
+  | Tampilkan of expr
+  (* | Diberikan of string * expr * expr
   | Jika of expr * expr
   | Fungsi of string * string * expr
   (* token related *)

@@ -1,6 +1,7 @@
 (copy_files (files ../main/frontend/helper/*.ml))
 (copy_files (files ../main/frontend/module/*.ml))
 (copy_files (files ./component/*.ml))
+(copy_files (files ./statement/*.ml))
 
 (copy_files (files ../main/frontend/lexer.mll))
 (copy_files (files ../main/frontend/parser.mly))

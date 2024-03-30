@@ -10,6 +10,7 @@ let rec evaluate_expression (e: expr) : expr = match e with
 | BilanganExpression (op, e1, e2) -> bilangan_arithmatic_operation op e1 e2
 | DesimalExpression (op, e1, e2) -> desimal_arithmatic_operation op e1 e2
 | BooleanExpression (op, e1, e2) -> boolean_operation op e1 e2
+| Tampilkan (p) -> tampilkan_statement p
 | ErrorExpression (s) -> ErrorExpression s
 
 and bilangan_arithmatic_operation operation e1 e2 = match operation, evaluate_expression e1, evaluate_expression e2 with
@@ -38,3 +39,10 @@ and boolean_operation operation e1 e2 = match operation, evaluate_expression e1,
   | BooleanLebihBesar, Bilangan a, Bilangan b -> Bool (int_greater_than a b)
   | BooleanLebihBesar, Desimal a, Desimal b -> Bool (float_greater_than a b)
   | _ -> call_exception "error-02"
+
+and tampilkan_statement p = match evaluate_expression p with
+  | Bilangan b -> Tampilkan (Bilangan (b))
+  | Desimal d -> Tampilkan (Desimal (d))
+  | Bool bo -> Tampilkan (Bool (bo))
+  | LarikKarakter s -> Tampilkan (LarikKarakter (s))
+  | _ -> call_exception "error-00"

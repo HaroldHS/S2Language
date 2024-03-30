@@ -39,6 +39,7 @@ main:
     | boe = boolean_expr; EOL { boe }
     | iao = invalid_arithmatic_expr; EOL { iao }
     | ibe = invalid_boolean_expr; EOL { ibe }
+    | te = tampilkan_stmn; EOL { te }
     | error EOL { ErrorExpression "error-00" }
 ;
 
@@ -79,6 +80,12 @@ boolean_expr:
     | de1 = desimal_expr; LEBIH_KECIL; de2 = desimal_expr { BooleanExpression (BooleanLebihKecil, de1, de2) }
     | be1 = bilangan_expr; LEBIH_BESAR; be2 = bilangan_expr { BooleanExpression (BooleanLebihBesar, be1, be2) }
     | de1 = desimal_expr; LEBIH_BESAR; de2 = desimal_expr { BooleanExpression (BooleanLebihBesar, de1, de2) }
+;
+
+tampilkan_stmn:
+    | TAMPILKAN; be = bilangan_expr { Tampilkan (be) }
+    | TAMPILKAN; de = desimal_expr { Tampilkan (de) }
+    | TAMPILKAN; boe = boolean_expr { Tampilkan (boe) }
 ;
 
 invalid_arithmatic_expr:
