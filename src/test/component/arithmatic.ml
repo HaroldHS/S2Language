@@ -18,7 +18,7 @@ let valid_float_arith = fun _ -> assert_equal 2.5 (
       | _ -> -99999.
 )
 
-let invalid_int_arith = fun _ -> assert_equal "error-00" (
+let invalid_int_arith = fun _ -> assert_equal "error-01" (
   let result = Parser.main Lexer.parse_token (Lexing.from_string "1 tambah (3.0 kurang 2.0)\n") in 
     let final_result = evaluate_expression result in
       match final_result with
@@ -26,7 +26,7 @@ let invalid_int_arith = fun _ -> assert_equal "error-00" (
       | _ -> "valid"
 )
 
-let invalid_float_arith = fun _ -> assert_equal "error-00" (
+let invalid_float_arith = fun _ -> assert_equal "error-01" (
   let result = Parser.main Lexer.parse_token (Lexing.from_string "1.0 tambah (3 kurang 2)\n") in
     let final_result = evaluate_expression result in
       match final_result with

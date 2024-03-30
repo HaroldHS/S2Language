@@ -37,6 +37,8 @@ main:
     | be = bilangan_expr; EOL { be }
     | de = desimal_expr; EOL { de }
     | boe = boolean_expr; EOL { boe }
+    | iao = invalid_arithmatic_expr; EOL { iao }
+    | ibe = invalid_boolean_expr; EOL { ibe }
     | error EOL { ErrorExpression "error-00" }
 ;
 
@@ -77,4 +79,40 @@ boolean_expr:
     | de1 = desimal_expr; LEBIH_KECIL; de2 = desimal_expr { BooleanExpression (BooleanLebihKecil, de1, de2) }
     | be1 = bilangan_expr; LEBIH_BESAR; be2 = bilangan_expr { BooleanExpression (BooleanLebihBesar, be1, be2) }
     | de1 = desimal_expr; LEBIH_BESAR; de2 = desimal_expr { BooleanExpression (BooleanLebihBesar, de1, de2) }
+;
+
+invalid_arithmatic_expr:
+    | bilangan_expr TAMBAH desimal_expr { ErrorExpression "error-01" }
+    | desimal_expr TAMBAH bilangan_expr { ErrorExpression "error-01" }
+    | bilangan_expr KURANG desimal_expr { ErrorExpression "error-01" }
+    | desimal_expr KURANG bilangan_expr { ErrorExpression "error-01" }
+    | bilangan_expr KALI desimal_expr { ErrorExpression "error-01" }
+    | desimal_expr KALI bilangan_expr { ErrorExpression "error-01" }
+    | bilangan_expr BAGI desimal_expr { ErrorExpression "error-01" }
+    | desimal_expr BAGI bilangan_expr { ErrorExpression "error-01" }
+    | bilangan_expr MODULO desimal_expr { ErrorExpression "error-01" }
+    | desimal_expr MODULO bilangan_expr { ErrorExpression "error-01" }
+;
+
+invalid_boolean_expr:
+    | boolean_expr DAN desimal_expr { ErrorExpression "error-02" }
+    | boolean_expr DAN bilangan_expr { ErrorExpression "error-02" }
+    | desimal_expr DAN boolean_expr { ErrorExpression "error-02" }
+    | bilangan_expr DAN boolean_expr { ErrorExpression "error-02" }
+    | boolean_expr ATAU desimal_expr { ErrorExpression "error-02" }
+    | boolean_expr ATAU bilangan_expr { ErrorExpression "error-02" }
+    | desimal_expr ATAU boolean_expr { ErrorExpression "error-02" }
+    | bilangan_expr ATAU boolean_expr { ErrorExpression "error-02" }
+    | boolean_expr SAMA_DENGAN desimal_expr { ErrorExpression "error-02" }
+    | boolean_expr SAMA_DENGAN bilangan_expr { ErrorExpression "error-02" }
+    | desimal_expr SAMA_DENGAN boolean_expr { ErrorExpression "error-02" }
+    | bilangan_expr SAMA_DENGAN boolean_expr { ErrorExpression "error-02" }
+    | boolean_expr LEBIH_KECIL desimal_expr { ErrorExpression "error-02" }
+    | boolean_expr LEBIH_KECIL bilangan_expr { ErrorExpression "error-02" }
+    | desimal_expr LEBIH_KECIL boolean_expr { ErrorExpression "error-02" }
+    | bilangan_expr LEBIH_KECIL boolean_expr { ErrorExpression "error-02" }
+    | boolean_expr LEBIH_BESAR desimal_expr { ErrorExpression "error-02" }
+    | boolean_expr LEBIH_BESAR bilangan_expr { ErrorExpression "error-02" }
+    | desimal_expr LEBIH_BESAR boolean_expr { ErrorExpression "error-02" }
+    | bilangan_expr LEBIH_BESAR boolean_expr { ErrorExpression "error-02" }
 ;

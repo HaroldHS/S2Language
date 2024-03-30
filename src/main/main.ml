@@ -17,6 +17,7 @@ let main =
             | Desimal f -> printf "baris %d >>  %F\n" x f
             | LarikKarakter s -> printf "baris %d >> %s\n" x s
             | Bool b -> printf "baris %d >>  %B\n" x b
+            | ErrorExpression s -> call_exception s
             | _ -> call_exception "error-00"
       done
 

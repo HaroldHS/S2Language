@@ -10,7 +10,7 @@ let rec evaluate_expression (e: expr) : expr = match e with
 | BilanganExpression (op, e1, e2) -> bilangan_arithmatic_operation op e1 e2
 | DesimalExpression (op, e1, e2) -> desimal_arithmatic_operation op e1 e2
 | BooleanExpression (op, e1, e2) -> boolean_operation op e1 e2
-| ErrorExpression (s) -> call_exception s
+| ErrorExpression (s) -> ErrorExpression s
 
 and bilangan_arithmatic_operation operation e1 e2 = match operation, evaluate_expression e1, evaluate_expression e2 with
   | TambahBilangan, Bilangan a, Bilangan b -> Bilangan (a + b)
