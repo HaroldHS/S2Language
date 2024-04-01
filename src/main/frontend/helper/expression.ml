@@ -33,11 +33,11 @@ type expr =
   | BooleanExpression of boolean * expr * expr
   (* other operations *)
   | Tampilkan of expr
-  (* | Diberikan of string * expr * expr
+  (* | Diberikan of string * expr * expr *)
   | Jika of expr * expr
-  | Fungsi of string * string * expr
+  (* | Fungsi of string * string * expr *)
   (* token related *)
-  | Token of int *)
+  (* | Token of int *)
   (**
   
     error code for error handling 
@@ -45,6 +45,8 @@ type expr =
     "error-00" = InvalidSyntax
     "error-01" = ArithmaticOperationError
     "error-02" = BooleanOperationError
+    "error-03" = IfOperationError
+    "error-04" = IfExecutionError
 
   **)
   | ErrorExpression of string

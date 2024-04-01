@@ -23,7 +23,7 @@
 %token LPAREN RPAREN MINUS
 
 (* file token *)
-%token EOL EOF_TOKEN INVALID_TOKEN
+%token EO_TOKEN INVALID_TOKEN
 
 (* precedences *)
 %left TAMBAH KURANG
@@ -34,13 +34,15 @@
 
 %%
 main:
-    | be = bilangan_expr; EOL { be }
-    | de = desimal_expr; EOL { de }
-    | boe = boolean_expr; EOL { boe }
-    | iao = invalid_arithmatic_expr; EOL { iao }
-    | ibe = invalid_boolean_expr; EOL { ibe }
-    | te = tampilkan_stmn; EOL { te }
-    | error EOL { ErrorExpression "error-00" }
+    | be = bilangan_expr; EO_TOKEN { be }
+    | de = desimal_expr; EO_TOKEN { de }
+    | boe = boolean_expr; EO_TOKEN { boe }
+    | iao = invalid_arithmatic_expr; EO_TOKEN { iao }
+    | ibe = invalid_boolean_expr; EO_TOKEN { ibe }
+    | ts = tampilkan_stmn; EO_TOKEN { ts }
+    | js = jika_stmn; EO_TOKEN { js }
+    | ijs = invalid_jika_stmn; EO_TOKEN { ijs }
+    | error EO_TOKEN { ErrorExpression "error-00" }
 ;
 
 bilangan_expr:
@@ -86,7 +88,14 @@ tampilkan_stmn:
     | TAMPILKAN; be = bilangan_expr { Tampilkan (be) }
     | TAMPILKAN; de = desimal_expr { Tampilkan (de) }
     | TAMPILKAN; boe = boolean_expr { Tampilkan (boe) }
+    | TAMPILKAN; s = LARIK_KARAKTER { Tampilkan (LarikKarakter (s)) }
 ;
+
+jika_stmn:
+    | JIKA; boe = boolean_expr; MAKA; exec = tampilkan_stmn { Jika (boe, exec) }
+;
+
+(* invalid statements / expressions *)
 
 invalid_arithmatic_expr:
     | bilangan_expr TAMBAH desimal_expr { ErrorExpression "error-01" }
@@ -122,4 +131,18 @@ invalid_boolean_expr:
     | boolean_expr LEBIH_BESAR bilangan_expr { ErrorExpression "error-02" }
     | desimal_expr LEBIH_BESAR boolean_expr { ErrorExpression "error-02" }
     | bilangan_expr LEBIH_BESAR boolean_expr { ErrorExpression "error-02" }
+;
+
+invalid_jika_stmn:
+    | JIKA bilangan_expr MAKA tampilkan_stmn { ErrorExpression "error-03" }
+    | JIKA desimal_expr MAKA tampilkan_stmn { ErrorExpression "error-03" }
+    | JIKA bilangan_expr MAKA bilangan_expr { ErrorExpression "error-03" }
+    | JIKA bilangan_expr MAKA desimal_expr { ErrorExpression "error-03" }
+    | JIKA bilangan_expr MAKA boolean_expr { ErrorExpression "error-03" }
+    | JIKA desimal_expr MAKA bilangan_expr { ErrorExpression "error-03" }
+    | JIKA desimal_expr MAKA desimal_expr { ErrorExpression "error-03" }
+    | JIKA desimal_expr MAKA boolean_expr { ErrorExpression "error-03" }
+    | JIKA boolean_expr MAKA bilangan_expr { ErrorExpression "error-04" }
+    | JIKA boolean_expr MAKA desimal_expr { ErrorExpression "error-04" }
+    | JIKA boolean_expr MAKA boolean_expr { ErrorExpression "error-04" }
 ;

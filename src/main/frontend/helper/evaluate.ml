@@ -11,6 +11,7 @@ let rec evaluate_expression (e: expr) : expr = match e with
 | DesimalExpression (op, e1, e2) -> desimal_arithmatic_operation op e1 e2
 | BooleanExpression (op, e1, e2) -> boolean_operation op e1 e2
 | Tampilkan (p) -> tampilkan_statement p
+| Jika (boe, exec) -> jika_statement boe exec
 | ErrorExpression (s) -> ErrorExpression s
 
 and bilangan_arithmatic_operation operation e1 e2 = match operation, evaluate_expression e1, evaluate_expression e2 with
@@ -46,3 +47,10 @@ and tampilkan_statement p = match evaluate_expression p with
   | Bool bo -> Tampilkan (Bool (bo))
   | LarikKarakter s -> Tampilkan (LarikKarakter (s))
   | _ -> call_exception "error-00"
+
+and jika_statement boe exec = match evaluate_expression boe, evaluate_expression exec with
+  | Bool true, Tampilkan (Bilangan (b)) -> Tampilkan (Bilangan (b))
+  | Bool true, Tampilkan (Desimal (d)) -> Tampilkan (Desimal (d))
+  | Bool true, Tampilkan (Bool (bo)) -> Tampilkan (Bool (bo))
+  | Bool true, Tampilkan (LarikKarakter (s)) -> Tampilkan (LarikKarakter (s))
+  | _ -> call_exception "error-03"

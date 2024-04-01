@@ -31,6 +31,6 @@ rule parse_token = parse
     | ('-')?['0'-'9']+ as int_num { BILANGAN (int_of_string int_num) }
     | ('-')?['0'-'9']+('.')['0'-'9']+ as float_num { DESIMAL (float_of_string float_num) }
     | ['a'-'z']+ as str { LARIK_KARAKTER str }
-    | '\n' { EOL }
-    | eof { EOF_TOKEN }
+    | '\n' { EO_TOKEN }
+    | eof { EO_TOKEN }
     | _ { INVALID_TOKEN }

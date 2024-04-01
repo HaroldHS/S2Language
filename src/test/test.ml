@@ -5,6 +5,7 @@ open OUnit2
 open Arithmatic
 open Boolean
 open Tampilkan
+open Jika
 
 let all_test_cases = "perform all built-in test cases" >::: [
   "valid integer arithmatic operation" >:: (valid_int_arith);
@@ -17,6 +18,9 @@ let all_test_cases = "perform all built-in test cases" >::: [
   "print valid integer arithmatic operation" >:: (tampilkan_valid_int_arith);
   "print valid float arithmatic operation" >:: (tampilkan_valid_float_arith);
   "print valid boolean operation" >:: (tampilkan_valid_bool);
+  "if valid execution" >:: (valid_jika_execute_tampilkan);
+  "if invalid condition" >:: (jika_bilangan_condition_invalid);
+  "if invalid execution" >:: (jika_execute_bilangan_invalid);
 ]
 
 let _ = run_test_tt_main all_test_cases
