@@ -25,6 +25,7 @@ type expr =
   | Bilangan of int
   | Desimal of float
   | LarikKarakter of string
+  | Variabel of string * int
   | Bool of bool
   (* arithmatic operations *)
   | BilanganExpression of arithmatic_bilangan * expr * expr
@@ -33,11 +34,10 @@ type expr =
   | BooleanExpression of boolean * expr * expr
   (* other operations *)
   | Tampilkan of expr
-  (* | Diberikan of string * expr * expr *)
+  | Diketahui of expr * expr
+  | DoNothing of unit (* DoNothing is used by 'diketahui' statement by doing nothing / just for return value *)
   | Jika of expr * expr
   (* | Fungsi of string * string * expr *)
-  (* token related *)
-  (* | Token of int *)
   (**
   
     error code for error handling 
@@ -47,6 +47,9 @@ type expr =
     "error-02" = BooleanOperationError
     "error-03" = IfOperationError
     "error-04" = IfExecutionError
+    "error-05" = VirtualContainerFullError
+    "error-06" = UnsupportedDataTypeForVariableError
+    "error-07" = VariableIsNotDefinedError
 
   **)
   | ErrorExpression of string

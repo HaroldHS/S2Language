@@ -8,6 +8,8 @@ rule parse_token = parse
     | ')' { RPAREN }
     | '-' { MINUS }
     | "diketahui" { DIKETAHUI }
+    | "variabel" { VARIABEL }
+    | "urutan" { URUTAN }
     | "tampilkan" { TAMPILKAN }
     | "jika" { JIKA }
     | "maka" { MAKA }
@@ -30,7 +32,7 @@ rule parse_token = parse
     | "salah" { SALAH false}
     | ('-')?['0'-'9']+ as int_num { BILANGAN (int_of_string int_num) }
     | ('-')?['0'-'9']+('.')['0'-'9']+ as float_num { DESIMAL (float_of_string float_num) }
-    | ['a'-'z']+ as str { LARIK_KARAKTER str }
+    | ('"')['a'-'z' '0'-'9' 'A'-'A' ' ']+('"') as str { LARIK_KARAKTER (String.sub str 1 ((String.length str) - 2)) }
     | '\n' { EO_TOKEN }
     | eof { EO_TOKEN }
     | _ { INVALID_TOKEN }

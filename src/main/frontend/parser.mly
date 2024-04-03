@@ -12,6 +12,8 @@
 
 (* reserved keywords *)
 %token DIKETAHUI
+%token VARIABEL
+%token URUTAN
 %token TAMPILKAN
 %token JIKA MAKA
 %token FUNGSI ADALAH
@@ -39,6 +41,7 @@ main:
     | boe = boolean_expr; EO_TOKEN { boe }
     | iao = invalid_arithmatic_expr; EO_TOKEN { iao }
     | ibe = invalid_boolean_expr; EO_TOKEN { ibe }
+    | ds = diketahui_stmn; EO_TOKEN { ds }
     | ts = tampilkan_stmn; EO_TOKEN { ts }
     | js = jika_stmn; EO_TOKEN { js }
     | ijs = invalid_jika_stmn; EO_TOKEN { ijs }
@@ -84,11 +87,19 @@ boolean_expr:
     | de1 = desimal_expr; LEBIH_BESAR; de2 = desimal_expr { BooleanExpression (BooleanLebihBesar, de1, de2) }
 ;
 
+diketahui_stmn:
+    | DIKETAHUI; s = LARIK_KARAKTER; ADALAH; be = bilangan_expr { Diketahui (LarikKarakter (s), be) }
+    | DIKETAHUI; s = LARIK_KARAKTER; ADALAH; de = desimal_expr { Diketahui (LarikKarakter (s), de) }
+    | DIKETAHUI; s = LARIK_KARAKTER; ADALAH; boe = boolean_expr { Diketahui (LarikKarakter (s), boe) }
+    | DIKETAHUI; s = LARIK_KARAKTER; ADALAH; ss = LARIK_KARAKTER { Diketahui (LarikKarakter (s), LarikKarakter (ss)) }
+;
+
 tampilkan_stmn:
     | TAMPILKAN; be = bilangan_expr { Tampilkan (be) }
     | TAMPILKAN; de = desimal_expr { Tampilkan (de) }
     | TAMPILKAN; boe = boolean_expr { Tampilkan (boe) }
     | TAMPILKAN; s = LARIK_KARAKTER { Tampilkan (LarikKarakter (s)) }
+    | TAMPILKAN; VARIABEL; s = LARIK_KARAKTER; URUTAN; i = BILANGAN { Tampilkan (Variabel (s, i)) }
 ;
 
 jika_stmn:

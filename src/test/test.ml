@@ -6,6 +6,7 @@ open Arithmatic
 open Boolean
 open Tampilkan
 open Jika
+open Diketahui
 
 let all_test_cases = "perform all built-in test cases" >::: [
   "valid integer arithmatic operation" >:: (valid_int_arith);
@@ -21,6 +22,8 @@ let all_test_cases = "perform all built-in test cases" >::: [
   "if valid execution" >:: (valid_jika_execute_tampilkan);
   "if invalid condition" >:: (jika_bilangan_condition_invalid);
   "if invalid execution" >:: (jika_execute_bilangan_invalid);
+  "let valid 1 variable" >:: (diketahui_and_tampilkan_1_variable);
+  "let valid 2 variables" >:: (diketahui_and_tampilkan_2_variable);
 ]
 
 let _ = run_test_tt_main all_test_cases
