@@ -25,7 +25,7 @@ type expr =
   | Bilangan of int
   | Desimal of float
   | LarikKarakter of string
-  | Variabel of string * int
+  | Variabel of string
   | Bool of bool
   (* arithmatic operations *)
   | BilanganExpression of arithmatic_bilangan * expr * expr

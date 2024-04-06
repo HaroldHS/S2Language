@@ -13,7 +13,6 @@
 (* reserved keywords *)
 %token DIKETAHUI
 %token VARIABEL
-%token URUTAN
 %token TAMPILKAN
 %token JIKA MAKA
 %token FUNGSI ADALAH
@@ -99,7 +98,7 @@ tampilkan_stmn:
     | TAMPILKAN; de = desimal_expr { Tampilkan (de) }
     | TAMPILKAN; boe = boolean_expr { Tampilkan (boe) }
     | TAMPILKAN; s = LARIK_KARAKTER { Tampilkan (LarikKarakter (s)) }
-    | TAMPILKAN; VARIABEL; s = LARIK_KARAKTER; URUTAN; i = BILANGAN { Tampilkan (Variabel (s, i)) }
+    | TAMPILKAN; VARIABEL; s = LARIK_KARAKTER; { Tampilkan (Variabel (s)) }
 ;
 
 jika_stmn:

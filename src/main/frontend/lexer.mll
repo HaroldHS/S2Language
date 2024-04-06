@@ -9,7 +9,6 @@ rule parse_token = parse
     | '-' { MINUS }
     | "diketahui" { DIKETAHUI }
     | "variabel" { VARIABEL }
-    | "urutan" { URUTAN }
     | "tampilkan" { TAMPILKAN }
     | "jika" { JIKA }
     | "maka" { MAKA }

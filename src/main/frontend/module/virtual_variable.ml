@@ -14,13 +14,20 @@ open Expression
 (* exception to break loop / iteration *)
 exception Break
 
-type virtual_variable = {
+type virtual_variable_type = {
   mutable name: string;         (* variable name *)
   mutable int_value: int;       (* Bilangan *)
   mutable float_value: float;   (* Desimal *)
   mutable bool_value: bool;     (* Bool *)
   mutable string_value: string; (* LarikKarakter *)
 }
+
+(* type for saving loop index *)
+type virtual_variable_index_type = {
+  mutable index: int;
+}
+
+let virtual_variable_index = {index = 0}
 
 let virtual_variable_container = Array.init 25 (fun _ -> {
   name = "init"; 
@@ -32,7 +39,21 @@ let virtual_variable_container = Array.init 25 (fun _ -> {
 
 (* function for obtaining variable values *)
 
-let get_virtual_variable = fun (var_name: string) -> fun (i: int) -> 
+let rec find_virtual_variable = fun (var_name: string) -> begin
+  get_virtual_variable_index var_name;
+  get_virtual_variable var_name;
+end
+
+and get_virtual_variable = fun (var_name: string) -> 
+  let var_value = get_virtual_variable_value var_name virtual_variable_index.index in
+    match var_value with
+    | Bilangan b -> Bilangan b
+    | Desimal d -> Desimal d
+    | Bool bo -> Bool bo
+    | LarikKarakter s -> LarikKarakter s
+    | _ -> call_exception "error-07"
+
+and get_virtual_variable_value = fun (var_name: string) -> fun (i: int) -> 
   if virtual_variable_container.(i).name = var_name && virtual_variable_container.(i).int_value <> 0 && virtual_variable_container.(i).float_value = 0.0 && virtual_variable_container.(i).bool_value = false && virtual_variable_container.(i).string_value = "" then
     Bilangan (virtual_variable_container.(i).int_value)
   else if virtual_variable_container.(i).name = var_name && virtual_variable_container.(i).int_value = 0 && virtual_variable_container.(i).float_value <> 0.0 && virtual_variable_container.(i).bool_value = false && virtual_variable_container.(i).string_value = "" then
@@ -43,6 +64,14 @@ let get_virtual_variable = fun (var_name: string) -> fun (i: int) ->
     Bool (virtual_variable_container.(i).bool_value)
   else
     call_exception "error-07"
+
+and get_virtual_variable_index = fun (var_name: string) ->
+  for i=0 to 24 do
+    if virtual_variable_container.(i).name = var_name then 
+      virtual_variable_index.index <- i
+    else
+      ()
+  done
 
 (* functions for variable assignment *)
 

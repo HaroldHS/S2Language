@@ -13,7 +13,7 @@ let rec evaluate_expression (e: expr) : expr = match e with
   | BooleanExpression (op, e1, e2) -> boolean_operation op e1 e2
   | Diketahui (s, e1) -> diketahui_statement s e1
   | DoNothing (st) -> DoNothing (st)
-  | Variabel (s, i) -> get_virtual_variable s i
+  | Variabel (s) -> find_virtual_variable s
   | Tampilkan (p) -> tampilkan_statement p
   | Jika (boe, exec) -> jika_statement boe exec
   | ErrorExpression (s) -> ErrorExpression s
