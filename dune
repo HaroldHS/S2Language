@@ -1,0 +1,11 @@
+(copy_files (files ./src/main/frontend/helper/*.ml))
+(copy_files (files ./src/main/frontend/module/*.ml))
+
+(copy_files (files ./src/main/frontend/lexer.mll))
+(copy_files (files ./src/main/frontend/parser.mly))
+(copy_files (files ./src/main/main.ml))
+
+(menhir (modules parser))
+(ocamllex lexer)
+
+(executable (name main))
