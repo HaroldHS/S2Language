@@ -33,29 +33,32 @@ dune clean
 ```
 
 1. Datatypes
-    * bilangan = Integer
-    * desimal = Floating Point Number
-    * bool = Boolean Values ("benar" | "salah")
-    * larik_karakter = String
+    * __bilangan__ = Integer
+    * __desimal__ = Floating Point Number
+    * __bool__ = Boolean Values ("benar" | "salah")
+    * __larik_karakter__ = String
+
 1. Reserved Keywords
-    * "diketahui" = keyword to indicate a variable assignment.
-    * "tampilkan" = keyword to print the intended value such as datatypes or variables.
-    * "variabel" = keyword to indicate variable assignment where the next string (larik_karakter) is the variable name.
-    * "adalah" = keyword to indicate that the next item is a value to be assigned to the variable name from "variabel".
-    * "jika" = keyword to indicate conditional statement with the next operation (boolean condition) is the condition to be met.
-    * "maka" = keyword to indicate that the next item is the intended operation / execution.
+    * "__diketahui__" = keyword to indicate a variable assignment.
+    * "__tampilkan__" = keyword to print the intended value such as datatypes or variables.
+    * "__variabel__" = keyword to indicate variable assignment where the next string (larik_karakter) is the variable name.
+    * "__adalah__" = keyword to indicate that the next item is a value to be assigned to the variable name from "variabel".
+    * "__jika__" = keyword to indicate conditional statement with the next operation (boolean condition) is the condition to be met.
+    * "__maka__" = keyword to indicate that the next item is the intended operation / execution.
+
 1. Arithmatic Operators
-    * "tambah" = addition
-    * "kurang" = subtraction
-    * "kali" = multiplication
-    * "bagi" = division
-    * "modulo" = "modulo"
+    * "__tambah__" = addition
+    * "__kurang__" = subtraction
+    * "__kali__" = multiplication
+    * "__bagi__" = division
+    * "__modulo__" = "modulo"
+
 1. Boolean Operators
-    * "dan" = and
-    * "atau" = or
-    * "sama dengan" = equals to
-    * "lebih kecil dari" = smaller than
-    * "lebih besar dari" = greater than
+    * "__dan__" = and
+    * "__atau__" = or
+    * "__sama dengan__" = equals to
+    * "__lebih kecil dari__" = smaller than
+    * "__lebih besar dari__" = greater than
 
 ### Example
 ```text
@@ -74,5 +77,5 @@ program berjalan dengan baik
 - [x] Variable Assignment
 - [x] Conditional Statement
 - [x] Print Statement
-- [] Function Declaration
-- [] Built-in libraries
+- [ ] Function Declaration
+- [ ] Built-in libraries
