@@ -47,6 +47,9 @@ main:
     | error EO_TOKEN { ErrorExpression "error-00" }
 ;
 
+variabel_expr:
+    | VARIABEL; s = LARIK_KARAKTER { Variabel (s) }
+
 bilangan_expr:
     | b = BILANGAN { Bilangan b }
     (* parantheses *)
@@ -57,6 +60,17 @@ bilangan_expr:
     | be1 = bilangan_expr; KALI; be2 = bilangan_expr { BilanganExpression (KaliBilangan, be1, be2) }
     | be1 = bilangan_expr; BAGI; be2 = bilangan_expr { BilanganExpression (BagiBilangan, be1, be2) }
     | be1 = bilangan_expr; MODULO; be2 = bilangan_expr { BilanganExpression (ModuloBilangan, be1, be2) }
+    (* arithmatic operations including variable *)
+    | var = variabel_expr; TAMBAH; be = bilangan_expr { BilanganExpression (TambahBilangan, var, be) }
+    | var = variabel_expr; KURANG; be = bilangan_expr { BilanganExpression (KurangBilangan, var, be) }
+    | var = variabel_expr; KALI; be = bilangan_expr { BilanganExpression (KaliBilangan, var, be) }
+    | var = variabel_expr; BAGI; be = bilangan_expr { BilanganExpression (BagiBilangan, var, be) }
+    | var = variabel_expr; MODULO; be = bilangan_expr { BilanganExpression (ModuloBilangan, var, be) }
+    | be = bilangan_expr; TAMBAH; var = variabel_expr { BilanganExpression (TambahBilangan, be, var) }
+    | be = bilangan_expr; KURANG; var = variabel_expr { BilanganExpression (KurangBilangan, be, var) }
+    | be = bilangan_expr; KALI; var = variabel_expr { BilanganExpression (KaliBilangan, be, var) }
+    | be = bilangan_expr; BAGI; var = variabel_expr { BilanganExpression (BagiBilangan, be, var) }
+    | be = bilangan_expr; MODULO; var = variabel_expr { BilanganExpression (ModuloBilangan, be, var) }
 ;
 
 desimal_expr:
@@ -67,6 +81,15 @@ desimal_expr:
     | de1 = desimal_expr; KURANG; de2 = desimal_expr { DesimalExpression (KurangDesimal, de1, de2) }
     | de1 = desimal_expr; KALI; de2 = desimal_expr { DesimalExpression (KaliDesimal, de1, de2) }
     | de1 = desimal_expr; BAGI; de2 = desimal_expr { DesimalExpression (BagiDesimal, de1, de2) }
+    (* arithmatic operations including variable *)
+    | var = variabel_expr; TAMBAH; de = desimal_expr { DesimalExpression (TambahDesimal, var, de) }
+    | var = variabel_expr; KURANG; de = desimal_expr { DesimalExpression (KurangDesimal, var, de) }
+    | var = variabel_expr; KALI; de = desimal_expr { DesimalExpression (KaliDesimal, var, de) }
+    | var = variabel_expr; BAGI; de = desimal_expr { DesimalExpression (BagiDesimal, var, de) }
+    | de = desimal_expr; TAMBAH; var = variabel_expr { DesimalExpression (TambahDesimal, de, var) }
+    | de = desimal_expr; KURANG; var = variabel_expr { DesimalExpression (KurangDesimal, de, var) }
+    | de = desimal_expr; KALI; var = variabel_expr { DesimalExpression (KaliDesimal, de, var) }
+    | de = desimal_expr; BAGI; var = variabel_expr { DesimalExpression (BagiDesimal, de, var) }
 ;
 
 boolean_expr:
@@ -84,6 +107,29 @@ boolean_expr:
     | de1 = desimal_expr; LEBIH_KECIL; de2 = desimal_expr { BooleanExpression (BooleanLebihKecil, de1, de2) }
     | be1 = bilangan_expr; LEBIH_BESAR; be2 = bilangan_expr { BooleanExpression (BooleanLebihBesar, be1, be2) }
     | de1 = desimal_expr; LEBIH_BESAR; de2 = desimal_expr { BooleanExpression (BooleanLebihBesar, de1, de2) }
+    (* additionaloperations including variable *)
+    | var = variabel_expr; DAN; boe = boolean_expr { BooleanExpression (BooleanDan, var, boe) }
+    | boe = boolean_expr; DAN; var = variabel_expr { BooleanExpression (BooleanDan, boe, var) }
+    | var = variabel_expr; ATAU; boe = boolean_expr { BooleanExpression (BooleanAtau, var, boe) }
+    | boe = boolean_expr; ATAU; var = variabel_expr { BooleanExpression (BooleanAtau, boe, var) }
+    | boe = boolean_expr; SAMA_DENGAN; var = variabel_expr { BooleanExpression (BooleanSamaDengan, boe, var) }
+    | var = variabel_expr; SAMA_DENGAN; boe = boolean_expr { BooleanExpression (BooleanSamaDengan, var, boe) }
+    | be = bilangan_expr; SAMA_DENGAN; var = variabel_expr { BooleanExpression (BooleanSamaDengan, be, var) }
+    | var = variabel_expr; SAMA_DENGAN; be = bilangan_expr { BooleanExpression (BooleanSamaDengan, var, be) }
+    | de = bilangan_expr; SAMA_DENGAN; var = variabel_expr { BooleanExpression (BooleanSamaDengan, de, var) }
+    | var = variabel_expr; SAMA_DENGAN; de = bilangan_expr { BooleanExpression (BooleanSamaDengan, var, de) }
+    | boe = boolean_expr; LEBIH_KECIL; var = variabel_expr { BooleanExpression (BooleanLebihKecil, boe, var) }
+    | var = variabel_expr; LEBIH_KECIL; boe = boolean_expr { BooleanExpression (BooleanLebihKecil, var, boe) }
+    | be = bilangan_expr; LEBIH_KECIL; var = variabel_expr { BooleanExpression (BooleanLebihKecil, be, var) }
+    | var = variabel_expr; LEBIH_KECIL; be = bilangan_expr { BooleanExpression (BooleanLebihKecil, var, be) }
+    | de = bilangan_expr; LEBIH_KECIL; var = variabel_expr { BooleanExpression (BooleanLebihKecil, de, var) }
+    | var = variabel_expr; LEBIH_KECIL; de = bilangan_expr { BooleanExpression (BooleanLebihKecil, var, de) }
+    | boe = boolean_expr; LEBIH_BESAR; var = variabel_expr { BooleanExpression (BooleanLebihBesar, boe, var) }
+    | var = variabel_expr; LEBIH_BESAR; boe = boolean_expr { BooleanExpression (BooleanLebihBesar, var, boe) }
+    | be = bilangan_expr; LEBIH_BESAR; var = variabel_expr { BooleanExpression (BooleanLebihBesar, be, var) }
+    | var = variabel_expr; LEBIH_BESAR; be = bilangan_expr { BooleanExpression (BooleanLebihBesar, var, be) }
+    | de = bilangan_expr; LEBIH_BESAR; var = variabel_expr { BooleanExpression (BooleanLebihBesar, de, var) }
+    | var = variabel_expr; LEBIH_BESAR; de = bilangan_expr { BooleanExpression (BooleanLebihBesar, var, de) }
 ;
 
 diketahui_stmn:
@@ -98,7 +144,7 @@ tampilkan_stmn:
     | TAMPILKAN; de = desimal_expr { Tampilkan (de) }
     | TAMPILKAN; boe = boolean_expr { Tampilkan (boe) }
     | TAMPILKAN; s = LARIK_KARAKTER { Tampilkan (LarikKarakter (s)) }
-    | TAMPILKAN; VARIABEL; s = LARIK_KARAKTER; { Tampilkan (Variabel (s)) }
+    | TAMPILKAN; var = variabel_expr; { Tampilkan (var) }
 ;
 
 jika_stmn:

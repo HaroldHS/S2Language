@@ -18,6 +18,16 @@ let valid_float_arith = fun _ -> assert_equal 2.5 (
       | _ -> -99999.
 )
 
+let valid_var_arith = fun _ -> assert_equal 12 (
+  let assign_var = Parser.main Lexer.parse_token (Lexing.from_string "diketahui \"test\" adalah 10\n") in
+    let var_result = evaluate_expression assign_var in
+      let add_var = Parser.main Lexer.parse_token (Lexing.from_string "variabel \"test\" tambah 2\n") in
+        let final_result = evaluate_expression add_var in
+          match var_result, final_result with
+          | DoNothing(), Bilangan i -> i
+          | _ -> -99999
+)
+
 let invalid_int_arith = fun _ -> assert_equal "error-01" (
   let result = Parser.main Lexer.parse_token (Lexing.from_string "1 tambah (3.0 kurang 2.0)\n") in 
     let final_result = evaluate_expression result in
